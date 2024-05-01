@@ -12,10 +12,10 @@ def take_screenshot(url, save_path):
     driver = webdriver.Chrome(service=service, options=options)
 
     driver.get(url)
-    time.sleep(2)
+    time.sleep(1)
 
     height = driver.execute_script("return document.body.scrollHeight")
-    scroll_increment = 100
+    scroll_increment = 200
     current_scroll_position = 0
     while current_scroll_position < height:
         driver.execute_script(f"window.scrollTo(0, {current_scroll_position});")
@@ -25,7 +25,7 @@ def take_screenshot(url, save_path):
     driver.execute_script(f"window.scrollTo(0, {height});")
     
     driver.execute_script("window.scrollTo(0, 0)")
-    time.sleep(5)
+    time.sleep(0.5)
 
 
     # Use Chrome DevTools Protocol to capture the screenshot
@@ -47,16 +47,9 @@ def url_to_filename(url):
     filename = path.replace('/', '_')
     return filename
 
-# url = "https://www.byndartisan.com/"
 
-# result = url_to_filename(url)
-
-# print(result)
-
-# Example usage
-urls = [
-        "https://www.byndartisan.com/pages/personalisation"
-        ]
+with open('urls.txt', 'r') as file:
+    urls = file.read().splitlines()
 
 for url in urls:
     take_screenshot(url, f"{url_to_filename(url)}.png")
